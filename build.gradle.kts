@@ -8,10 +8,13 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
 }
 
-
 group = "ru.pvndpl"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
+
+val databaseUrl: String by project
+val databaseUsername: String by project
+val databasePassword: String by project
 
 configurations {
     compileOnly {
@@ -48,10 +51,6 @@ dependencies {
 /*    testImplementation("org.springframework.security:spring-security-test")*/
 }
 
-val databaseUsername: String = "postgres"
-val databasePassword: String = "postgres"
-val databaseUrl: String = "jdbc:postgresql://localhost:5432/pvndpl"
-
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -63,9 +62,13 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-
 liquibase {
     activities.register("main") {
+
+        println(databaseUrl)
+        println(databaseUsername)
+        println(databasePassword)
+
         this.arguments = mapOf(
             "logLevel" to "info",
             "driver" to "org.postgresql.Driver",
@@ -77,9 +80,3 @@ liquibase {
     }
     runList = "main"
 }
-
-/*
-tasks.register("main") {
-    // depend on the liquibase status task
-    dependsOn("update")
-}*/
