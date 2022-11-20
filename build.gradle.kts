@@ -1,6 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id("com.github.johnrengelman.processes") version "0.5.0"
+    id("org.springdoc.openapi-gradle-plugin") version "1.3.3"
+
     id("org.springframework.boot") version "2.7.3"
     id("io.spring.dependency-management") version "1.0.13.RELEASE"
     id("org.liquibase.gradle") version "2.1.0"
@@ -27,6 +30,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
+
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-security")
