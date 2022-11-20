@@ -3,3 +3,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/pvndpl
     password: postgres
     username: postgres
+
+jwt.secret: HUcKvKug9lyqnkAqPIFQl5FrlphGotvFPlR36yHm1c4g2UC0e4FvBY7Lwxf5pFKnJ6Lxlm1anzexAGYOjZxALQDwy6c3RuR50M4i

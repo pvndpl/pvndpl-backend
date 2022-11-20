@@ -29,18 +29,23 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-mail")
-/*    implementation("org.springframework.boot:spring-boot-starter-security")*/
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
+
+    val jjwtVersion: String by project
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+    implementation("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 
     //liquibase deps
     liquibaseRuntime("org.liquibase:liquibase-core:4.16.1")
     liquibaseRuntime("org.postgresql:postgresql:42.5.0")
     liquibaseRuntime("info.picocli:picocli:4.6.1")
-    //liquibaseRuntime("org.liquibase:liquibase-kotlin-dsl")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -48,7 +53,7 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-/*    testImplementation("org.springframework.security:spring-security-test")*/
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {
