@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import ru.pvndpl.entity.User
 import ru.pvndpl.model.RegistrationDto
 import ru.pvndpl.model.SimpleUserAuthInfo
 import ru.pvndpl.service.UserService
@@ -25,12 +24,6 @@ class UserController constructor(
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .build()
-    }
-
-    @GetMapping("/users")
-    fun findUser(): List<User>? {
-
-        return userService.fetchUsers()
     }
 
     @GetMapping("/user-info")

@@ -1,10 +1,11 @@
 package ru.pvndpl.entity
 
 import java.sql.Timestamp
-import java.util.UUID
+import java.util.*
 
 data class Message(
-    val id: Int,
-    val sendingTime: Timestamp,
-    val text: String
+    val id: UUID,
+    val userIdFrom: UUID,
+    val time: Timestamp,
+    val text: String,
 )

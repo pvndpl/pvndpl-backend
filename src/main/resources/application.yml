@@ -4,6 +4,12 @@ spring:
     password: postgres
     username: postgres
 
+springdoc:
+  show-actuator: false
+  swagger-ui:
+    enabled: true
+    path: /api
+
 jwt.secret: HUcKvKug9lyqnkAqPIFQl5FrlphGotvFPlR36yHm1c4g2UC0e4FvBY7Lwxf5pFKnJ6Lxlm1anzexAGYOjZxALQDwy6c3RuR50M4i
 server:
   servlet:
