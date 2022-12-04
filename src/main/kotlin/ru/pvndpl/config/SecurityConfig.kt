@@ -43,7 +43,7 @@ class SecurityConfig(
 
         httpSecurity
             .csrf().disable() // dont authenticate this particular request
-            .authorizeRequests().antMatchers("/authenticate", "/api", "/swagger-ui/index.html").permitAll()
+            .authorizeRequests().antMatchers("/users", "/authenticate", "/api", "/swagger-ui/index.html").permitAll()
             .anyRequest().authenticated() // all other requests need to be authenticated
             .and().exceptionHandling()
             .authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
