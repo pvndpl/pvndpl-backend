@@ -34,11 +34,6 @@ class MessageService(
             Timestamp(nowInMillis),
             messageCreateDto.text, chatId)
 
-        return getMessageById(messageId)
-
-    }
-
-    fun getMessageById(messageId: UUID): Message {
         return messageRepository.getMessageById(messageId) ?: throw RuntimeException()
     }
 }
