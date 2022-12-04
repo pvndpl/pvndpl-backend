@@ -1,10 +1,10 @@
 ﻿package ru.pvndpl.test
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import mu.KotlinLogging
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -62,6 +62,8 @@ class MessagesTest {
                     json(objectMapper.writeValueAsString(listOf(message)))
                 }
             }
+
+        verify(messageRepository, Mockito.times(1)).getAllMessagesByChatId(any())
     }
 
     private fun <T> any(): T = Mockito.any()
