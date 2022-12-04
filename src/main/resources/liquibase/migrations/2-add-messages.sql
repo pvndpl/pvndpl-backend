@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
---changeset nelesha:1
+--changeset max:1
 CREATE TABLE IF NOT EXISTS messages
 (
     id           UUID PRIMARY KEY,
@@ -9,14 +9,14 @@ CREATE TABLE IF NOT EXISTS messages
     text         VARCHAR(300)
 );
 
---changeset nelesha:2
+--changeset max:2
 CREATE TABLE IF NOT EXISTS chats_types
 (
     id   UUID PRIMARY KEY,
     type VARCHAR(128) UNIQUE NOT NULL
 );
 
---changeset nelesha:3
+--changeset max:3
 CREATE TABLE IF NOT EXISTS chats
 (
     id      UUID PRIMARY KEY,
@@ -24,19 +24,19 @@ CREATE TABLE IF NOT EXISTS chats
     type_id UUID NOT NULL REFERENCES chats_types (id)
 );
 
---changeset nelesha:4
+--changeset max:4
 INSERT INTO chats_types(id, type)
 VALUES (gen_random_uuid(), 'Private'),
        (gen_random_uuid(), 'Group');
 
---changeset nelesha:5
+--changeset max:5
 CREATE TABLE IF NOT EXISTS chats_messages
 (
     chats_id   UUID NOT NULL REFERENCES chats (id),
     message_id UUID NOT NULL REFERENCES messages (id)
 );
 
---changeset nelesha:6
+--changeset max:6
 CREATE TABLE IF NOT EXISTS chats_participant
 (
     chat_id UUID NOT NULL REFERENCES chats (id),

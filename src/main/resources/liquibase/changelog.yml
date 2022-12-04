@@ -5,3 +5,5 @@ databaseChangeLog:
       file: src/main/resources/liquibase/migrations/2-add-messages.sql
   - include:
       file: src/main/resources/liquibase/migrations/3-add-posts.sql
+  - include:
+      file: src/main/resources/liquibase/migrations/4-users_subscribers.sql
