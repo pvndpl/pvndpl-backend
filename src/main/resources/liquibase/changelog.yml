@@ -2,8 +2,10 @@ databaseChangeLog:
   - include:
       file: src/main/resources/liquibase/migrations/1-base-configuration.sql
   - include:
-      file: src/main/resources/liquibase/migrations/2-add-messages.sql
+      file: src/main/resources/liquibase/migrations/2-messages-and-chats.sql
   - include:
       file: src/main/resources/liquibase/migrations/3-add-posts.sql
   - include:
       file: src/main/resources/liquibase/migrations/4-users_subscribers.sql
+  - include:
+      file: src/main/resources/liquibase/migrations/5-users-profile.sql

@@ -45,7 +45,7 @@ class SubscriberRepository(
     }
 
     private companion object {
-        val ROW_MAPPER_USERS_SUBSCRIBER= RowMapper<SubscriberDto> { rs, _ ->
+        val ROW_MAPPER_USERS_SUBSCRIBER = RowMapper<SubscriberDto> { rs, _ ->
             SubscriberDto(
                 rs.getObject("user_id", UUID::class.java),
                 rs.getString("username"),
