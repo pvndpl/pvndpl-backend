@@ -3,6 +3,7 @@ package ru.pvndpl.controller
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -32,10 +33,10 @@ class PostController constructor (val postService : PostService) {
         return ResponseEntity.ok(posts)
     }
 
-    @GetMapping("/posts/{id}")
-    fun getUserPosts(id : UUID) : ResponseEntity<List<Post>> {
+    @GetMapping("/posts/{postId}")
+    fun getUserPosts(@PathVariable postId : UUID) : ResponseEntity<List<Post>> {
 
-        val posts : List<Post> = postService.getUserPosts(id)
+        val posts : List<Post> = postService.getUserPosts(postId)
 
         return ResponseEntity.ok(posts)
     }
