@@ -17,13 +17,6 @@ class UserRepository(
     private val jdbcTemplate: JdbcTemplate
 ) {
 
-    fun fetchUsers(): List<User> {
-        return jdbcTemplate.query(
-            "select * from users order by id",
-            ROW_MAPPER_USERS
-        )
-    }
-
     fun findByUsername(username: String?): SimpleUserAuthInfo? {
         return jdbcTemplate.queryForObject(
             "select * from users where username like \'$username' limit 1",
@@ -41,7 +34,8 @@ class UserRepository(
 
         val uuid: UUID = UUID.randomUUID()
 
-        val query = "insert into users(id, username, password, email, first_name, second_name) values (\'$uuid', \'$username', \'$password', \'$email', \'$firstName', \'$secondName')"
+        val query = "insert into users(id, username, password, email, first_name, second_name) " +
+                "values (\'$uuid', \'$username', \'$password', \'$email', \'$firstName', \'$secondName')"
 
         logger.warn { query }
 
@@ -51,12 +45,23 @@ class UserRepository(
     }
 
     private companion object {
-        val ROW_MAPPER_USERS = RowMapper<User> {
-            rs, _ -> User(rs.getObject("id", UUID::class.java), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("firstName"), rs.getString("secondName"))
+        val ROW_MAPPER_USERS = RowMapper<User> { rs, _ ->
+            User(
+                rs.getObject("id", UUID::class.java),
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getString("email"),
+                rs.getString("first_name"),
+                rs.getString("second_name")
+            )
         }
 
-        val ROW_MAPPER_SIMPLE_USER_AUTH_INFO = RowMapper<SimpleUserAuthInfo> {
-            rs, _ -> SimpleUserAuthInfo(rs.getObject("id", UUID::class.java), rs.getString("username"), rs.getString("password"))
+        val ROW_MAPPER_SIMPLE_USER_AUTH_INFO = RowMapper<SimpleUserAuthInfo> { rs, _ ->
+            SimpleUserAuthInfo(
+                rs.getObject("id", UUID::class.java),
+                rs.getString("username"),
+                rs.getString("password")
+            )
         }
     }
 }

@@ -2,7 +2,6 @@ package ru.pvndpl.service
 
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import ru.pvndpl.entity.User
 import ru.pvndpl.model.RegistrationDto
 import ru.pvndpl.model.SimpleUserAuthInfo
 import ru.pvndpl.repository.UserRepository
@@ -23,11 +22,6 @@ class UserService(
             registrationDto.firstName,
             registrationDto.secondName
         )
-    }
-
-    fun fetchUsers(): List<User>? {
-
-        return userRepository.fetchUsers()
     }
 
     fun findByUsername(username: String): SimpleUserAuthInfo? {
