@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import ru.pvndpl.entity.Profile
 import ru.pvndpl.model.ProfileAboutDto
@@ -36,7 +37,7 @@ class ProfileController(
     }
 
     @PatchMapping("/profile/about")
-    fun editUserProfileAbout(auth: Authentication, dto: ProfileAboutDto): ResponseEntity<Void> {
+    fun editUserProfileAbout(auth: Authentication, @RequestBody dto: ProfileAboutDto): ResponseEntity<Void> {
 
         profileService.editUserProfileAbout(auth.name, dto)
 
@@ -46,7 +47,7 @@ class ProfileController(
     }
 
     @PatchMapping("/profile/interests")
-    fun editUserProfileInterests(auth: Authentication, dto: ProfileInterestsDto): ResponseEntity<Void> {
+    fun editUserProfileInterests(auth: Authentication, @RequestBody dto: ProfileInterestsDto): ResponseEntity<Void> {
 
         profileService.editUserProfileInterests(auth.name, dto)
 
@@ -56,7 +57,7 @@ class ProfileController(
     }
 
     @PatchMapping("/profile/personalInf")
-    fun editUserProfilePersonalInf(auth: Authentication, dto: ProfilePersonalInfDto): ResponseEntity<Void> {
+    fun editUserProfilePersonalInf(auth: Authentication, @RequestBody dto: ProfilePersonalInfDto): ResponseEntity<Void> {
 
         profileService.editUserProfilePersonalInf(auth.name, dto)
 
@@ -66,7 +67,7 @@ class ProfileController(
     }
 
     @PostMapping("/profile/socials")
-    fun addUserProfileSocialNetwork(auth: Authentication, profileSocialDto: ProfileSocialDto): ResponseEntity<Void> {
+    fun addUserProfileSocialNetwork(auth: Authentication, @RequestBody profileSocialDto: ProfileSocialDto): ResponseEntity<Void> {
 
         profileService.addUserProfileSocialNetwork(auth.name, profileSocialDto)
 
@@ -86,7 +87,7 @@ class ProfileController(
     }
 
     @PatchMapping("/profile/socials")
-    fun editUserProfileSocialNetwork(auth: Authentication, profileSocialDto: ProfileSocialDto): ResponseEntity<Void> {
+    fun editUserProfileSocialNetwork(auth: Authentication, @RequestBody profileSocialDto: ProfileSocialDto): ResponseEntity<Void> {
 
         profileService.editUserProfileSocialNetwork(auth.name, profileSocialDto)
 

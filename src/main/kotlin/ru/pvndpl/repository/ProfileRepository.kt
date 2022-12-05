@@ -39,7 +39,7 @@ class ProfileRepository(
         jdbcTemplate.update(query)
     }
 
-    fun editAbout(userId: UUID, about: String, city: String, website: String) {
+    fun editAbout(userId: UUID, about: String?, city: String?, website: String?) {
 
         val query = "UPDATE users_profiles\n" +
                 "SET about   = \'$about',\n" +
@@ -52,7 +52,7 @@ class ProfileRepository(
         jdbcTemplate.update(query)
     }
 
-    fun editInterests(userId: UUID, tvShows: String, showmen: String, books: String, games: String) {
+    fun editInterests(userId: UUID, tvShows: String?, showmen: String?, books: String?, games: String?) {
 
         val query = "UPDATE users_profiles\n" +
                 "SET tv_shows = \'$tvShows',\n" +
@@ -66,7 +66,7 @@ class ProfileRepository(
         jdbcTemplate.update(query)
     }
 
-    fun editPersonalInf(userId: UUID, email: String, birthdate: Date, busyness: String, nativeCity: String) {
+    fun editPersonalInf(userId: UUID, email: String?, birthdate: Date?, busyness: String?, nativeCity: String?) {
 
         val query = "UPDATE users_profiles\n" +
                 "SET email       = \'$email',\n" +
