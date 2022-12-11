@@ -12,10 +12,6 @@ group = "ru.pvndpl"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-val databaseUrl: String by project
-val databaseUsername: String by project
-val databasePassword: String by project
-
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
@@ -40,10 +36,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
 
-    val jjwtVersion: String by project
-    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
-    implementation("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
-    implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     //liquibase deps
     liquibaseRuntime("org.liquibase:liquibase-core:4.16.1")
@@ -73,17 +68,13 @@ tasks.withType<Test> {
 liquibase {
     activities.register("main") {
 
-        println(databaseUrl)
-        println(databaseUsername)
-        println(databasePassword)
-
         this.arguments = mapOf(
             "logLevel" to "info",
             "driver" to "org.postgresql.Driver",
             "changeLogFile" to "src/main/resources/liquibase/changelog.yml",
-            "url" to databaseUrl,
-            "username" to databaseUsername,
-            "password" to databasePassword
+            "url" to System.getenv("DB_URL"),
+            "username" to System.getenv("DB_USERNAME"),
+            "password" to System.getenv("DB_PASSWORD")
         )
     }
     runList = "main"

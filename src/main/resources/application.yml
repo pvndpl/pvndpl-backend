@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pvndpl
-    password: postgres
-    username: postgres
+    url: ${DB_URL}
+    password: ${DB_USERNAME}
+    username: ${DB_PASSWORD}
 
 springdoc:
   show-actuator: false
@@ -10,7 +10,7 @@ springdoc:
     enabled: true
     path: /api
 
-jwt.secret: HUcKvKug9lyqnkAqPIFQl5FrlphGotvFPlR36yHm1c4g2UC0e4FvBY7Lwxf5pFKnJ6Lxlm1anzexAGYOjZxALQDwy6c3RuR50M4i
+jwt.secret: ${SEC_SECRET}
 server:
   servlet:
     context-path: /api
