@@ -42,6 +42,7 @@ class SecurityConfig(
     override fun configure(httpSecurity: HttpSecurity) {
 
         httpSecurity
+            .cors().disable()
             .csrf().disable() // dont authenticate this particular request
             .authorizeRequests().antMatchers("/users/**", "/authenticate", "/swagger-ui/index.html").permitAll()
             .anyRequest().authenticated() // all other requests need to be authenticated
