@@ -3,7 +3,8 @@ package ru.pvndpl.model
 import java.util.*
 
 data class ChatDto(
-    val id: UUID,
-    val type: String,
-    val title: String,
+    val chatId: UUID,
+    val userId: UUID,
+    val userFirstName: String,
+    val userLastName: String
 )

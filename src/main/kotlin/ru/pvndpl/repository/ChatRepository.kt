@@ -57,15 +57,18 @@ class ChatRepository(
 
     fun getAllUserChats(userId: UUID): List<ChatDto> {
         return jdbcTemplate.query(
-            "select c.id, ct.type, c.title\n" +
-                    "from chats c\n" +
-                    "         join chats_types ct on ct.id = c.type_id\n" +
-                    "         join chats_participant cp on c.id = cp.chat_id\n" +
-                    "where user_id = \'$userId'",
+            "SELECT c.id, u.id, u.first_name, u.second_name\n" +
+                    "FROM (SELECT c.id\n" +
+                    "      FROM chats c\n" +
+                    "               JOIN chats_types ct ON ct.id = c.type_id\n" +
+                    "               JOIN chats_participant cp ON c.id = cp.chat_id\n" +
+                    "      WHERE cp.user_id = \'$userId') AS c\n" +
+                    "         JOIN chats_participant cp ON c.id = cp.chat_id\n" +
+                    "         JOIN users u ON u.id = cp.user_id\n" +
+                    "WHERE cp.user_id != \'$userId'",
             ROW_MAPPER_CHAT_DTO
         )
     }
-
 
     private companion object {
         val ROW_MAPPER_CHAT = RowMapper<Chat> { rs, _ ->
@@ -79,8 +82,9 @@ class ChatRepository(
         val ROW_MAPPER_CHAT_DTO = RowMapper<ChatDto> { rs, _ ->
             ChatDto(
                 rs.getObject("id", UUID::class.java),
-                rs.getString("type"),
-                rs.getString("title")
+                rs.getObject("id", UUID::class.java),
+                rs.getString("first_name"),
+                rs.getString("second_name")
             )
         }
 

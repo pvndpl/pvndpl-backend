@@ -16,15 +16,25 @@ class ChatService(
 
         val userId: UUID = userService.findByUsername(userName)!!.id
 
-        return chatRepository.createChat(
+        val chatId: UUID = chatRepository.createChat(
             chatCreateDto.type,
             chatCreateDto.title,
             userId
         )
+
+        chatRepository.addMemberToChat(chatId, chatCreateDto.userInvitedID)
+
+        return chatId
     }
 
     fun getAllUserChats(userName: String): List<ChatDto> {
 
         return chatRepository.getAllUserChats(userService.findByUsername(userName)!!.id)
     }
+
+    fun addMemberToChat(chatId: UUID, userId: UUID) {
+
+        return chatRepository.addMemberToChat(chatId, userId)
+    }
+
 }
