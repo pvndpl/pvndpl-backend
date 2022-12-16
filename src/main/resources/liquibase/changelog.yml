@@ -9,3 +9,5 @@ databaseChangeLog:
       file: src/main/resources/liquibase/migrations/4-users_subscribers.sql
   - include:
       file: src/main/resources/liquibase/migrations/5-users-profile.sql
+  - include:
+      file: src/main/resources/liquibase/migrations/6-add-tags.sql.sql
