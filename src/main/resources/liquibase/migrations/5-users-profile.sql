@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users_profiles
     user_id UUID PRIMARY KEY REFERENCES users (id),
     posts_count INT NOT NULL,
     subscribers_count INT NOT NULL,
-    comments_count INT NOT NULL,
+    subscriptions_count INT NOT NULL,
     about VARCHAR(255),
     created_date DATE NOT NULL,
     city VARCHAR(128),

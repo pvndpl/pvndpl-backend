@@ -45,22 +45,13 @@ class UserRepository(
     }
 
     private companion object {
-        val ROW_MAPPER_USERS = RowMapper<User> { rs, _ ->
-            User(
-                rs.getObject("id", UUID::class.java),
-                rs.getString("username"),
-                rs.getString("password"),
-                rs.getString("email"),
-                rs.getString("first_name"),
-                rs.getString("second_name")
-            )
-        }
-
         val ROW_MAPPER_SIMPLE_USER_AUTH_INFO = RowMapper<SimpleUserAuthInfo> { rs, _ ->
             SimpleUserAuthInfo(
                 rs.getObject("id", UUID::class.java),
                 rs.getString("username"),
-                rs.getString("password")
+                rs.getString("password"),
+                rs.getString("first_name"),
+                rs.getString("second_name")
             )
         }
     }

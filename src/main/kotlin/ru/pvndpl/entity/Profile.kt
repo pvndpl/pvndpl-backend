@@ -7,7 +7,7 @@ data class Profile(
     val userId: UUID,
     val postsCount: Int,
     val subscribersCount: Int,
-    val commentsCount: Int,
+    val subscriptionsCount: Int,
     val about: String?,
     val createdDate: Date,
     val city: String?,

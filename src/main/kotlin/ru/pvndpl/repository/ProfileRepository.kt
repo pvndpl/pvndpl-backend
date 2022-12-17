@@ -31,7 +31,7 @@ class ProfileRepository(
     fun createUserProfile(userId: UUID, createdDate: Date, email: String) {
 
         val query = "INSERT INTO users_profiles(user_id, " +
-                "posts_count, subscribers_count, comments_count, created_date, email) " +
+                "posts_count, subscribers_count, subscriptions_count, created_date, email) " +
                 "VALUES (\'$userId', 0, 0, 0, \'$createdDate', '$email')"
 
         logger.warn { query }
@@ -123,6 +123,9 @@ class ProfileRepository(
                 "                         WHERE user_id = \'$userId'),\n" +
                 "    subscribers_count = (SELECT count(*)\n" +
                 "                         FROM users_subscribers\n" +
+                "                         WHERE subscribers_id = \'$userId'),\n" +
+                "    subscriptions_count = (SELECT count(*)\n" +
+                "                         FROM users_subscribers\n" +
                 "                         WHERE user_id = \'$userId')\n" +
                 "WHERE user_id = \'$userId'"
 
@@ -148,7 +151,7 @@ class ProfileRepository(
                 rs.getObject("user_id", UUID::class.java),
                 rs.getInt("posts_count"),
                 rs.getInt("subscribers_count"),
-                rs.getInt("comments_count"),
+                rs.getInt("subscriptions_count"),
                 rs.getString("about"),
                 rs.getDate("created_date"),
                 rs.getString("city"),

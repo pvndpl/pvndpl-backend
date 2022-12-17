@@ -14,12 +14,18 @@ class SubscriberService(
 
         return subscriberRepository.getUserSubscribers(userId)
     }
+    fun getAuthUserSubscriptions(userName: String): List<SubscriberDto> {
+
+        val userId: UUID = userService.findByUsername(userName)!!.id
+
+        return subscriberRepository.getUserSubscribers(userId)
+    }
 
     fun getAuthUserSubscribers(userName: String): List<SubscriberDto> {
 
         val userId: UUID = userService.findByUsername(userName)!!.id
 
-        return subscriberRepository.getUserSubscribers(userId)
+        return subscriberRepository.getUserSubscriptions(userId)
     }
 
     fun setNewSubscriber(userName: String, subscriberId: UUID) {

@@ -7,15 +7,22 @@ import ru.pvndpl.repository.PostRepository
 import java.util.UUID
 
 @Service
-class PostService(val postRepository : PostRepository) {
-    fun createPost(postDto : PostCreateDto) : UUID{
+class PostService(
+    val postRepository : PostRepository,
+    val userService: UserService
+) {
+    fun createPost(userName: String, postDto : PostCreateDto) : UUID {
 
-        return postRepository.createPost(postDto.creatorId, postDto.category, postDto.content)
+        val creatorId: UUID = userService.findByUsername(userName)!!.id
+
+        return postRepository.createPost(creatorId, postDto.category, postDto.content)
     }
 
-    fun getAllPosts() : List<Post>{
+    fun getAllPosts(userName: String) : List<Post>{
 
-        return postRepository.getAllPosts()
+        val userId: UUID = userService.findByUsername(userName)!!.id
+
+        return postRepository.getAllPosts(userId)
     }
 
     fun getUserPosts(id : UUID) : List<Post>{

@@ -21,6 +21,15 @@ class SubscriberRepository(
         return jdbcTemplate.query(
             "SELECT * FROM users_subscribers\n" +
                     "    JOIN users u on u.id = users_subscribers.subscribers_id\n" +
+                    "WHERE subscribers_id = \'$userId'",
+            ROW_MAPPER_USERS_SUBSCRIBER
+        )
+    }
+
+    fun getUserSubscriptions(userId: UUID): List<SubscriberDto> {
+        return jdbcTemplate.query(
+            "SELECT * FROM users_subscribers\n" +
+                    "    JOIN users u on u.id = users_subscribers.subscribers_id\n" +
                     "WHERE user_id = \'$userId'",
             ROW_MAPPER_USERS_SUBSCRIBER
         )

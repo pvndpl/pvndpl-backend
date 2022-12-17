@@ -24,6 +24,12 @@ class SubscriberController(
         return ResponseEntity.ok(subscriberService.getAuthUserSubscribers(auth.name))
     }
 
+    @GetMapping("/subscriptions")
+    fun getAuthUserSubscriptions(auth: Authentication): ResponseEntity<List<SubscriberDto>> {
+
+        return ResponseEntity.ok(subscriberService.getAuthUserSubscriptions(auth.name))
+    }
+
     @PostMapping("/subscribers")
     fun setNewSubscriber(auth: Authentication, @RequestParam subscriberId: UUID): ResponseEntity<Void> {
 

@@ -6,8 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
 import ru.pvndpl.entity.Post
-import ru.pvndpl.entity.User
-import ru.pvndpl.model.SimpleUserAuthInfo
 import java.util.*
 import kotlin.collections.List
 
@@ -30,9 +28,13 @@ class PostRepository (private val jdbcTemplate: JdbcTemplate){
         return uuid
     }
 
-    fun getAllPosts() : List<Post>{
+    fun getAllPosts(userId: UUID) : List<Post>{
 
-        return jdbcTemplate.query("select * from posts", ROW_MAPPER_POSTS)
+        return jdbcTemplate.query("SELECT *\n" +
+                "FROM posts\n" +
+                "WHERE creator_id IN (SELECT subscribers_id\n" +
+                "                     FROM users_subscribers\n" +
+                "                     WHERE user_id = \'$userId')", ROW_MAPPER_POSTS)
     }
 
     fun getUserPosts(id : UUID) : List<Post>{

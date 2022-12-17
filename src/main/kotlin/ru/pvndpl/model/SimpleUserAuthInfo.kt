@@ -6,4 +6,6 @@ data class SimpleUserAuthInfo (
     var id: UUID,
     var username: String,
     var password: String,
+    val firstname: String,
+    val lastname: String
 )
