@@ -5,8 +5,8 @@ import mu.KotlinLogging
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
-import ru.pvndpl.entity.User
 import ru.pvndpl.model.SimpleUserAuthInfo
+import ru.pvndpl.model.SimpleUserInfoDto
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
@@ -44,6 +44,14 @@ class UserRepository(
         return uuid
     }
 
+    fun fetchAllByPartOfUsername(username: String): List<SimpleUserInfoDto> {
+
+        return jdbcTemplate.query(
+            "select id, username from users where username ilike '%$username%'",
+            ROW_MAPPER_SIMPLE_USER_INFO_DTO
+        )
+    }
+
     private companion object {
         val ROW_MAPPER_SIMPLE_USER_AUTH_INFO = RowMapper<SimpleUserAuthInfo> { rs, _ ->
             SimpleUserAuthInfo(
@@ -52,6 +60,12 @@ class UserRepository(
                 rs.getString("password"),
                 rs.getString("first_name"),
                 rs.getString("second_name")
+            )
+        }
+        val ROW_MAPPER_SIMPLE_USER_INFO_DTO = RowMapper<SimpleUserInfoDto> { rs, _ ->
+            SimpleUserInfoDto(
+                rs.getObject("id", UUID::class.java),
+                rs.getString("username")
             )
         }
     }
