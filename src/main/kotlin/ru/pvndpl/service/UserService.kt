@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import ru.pvndpl.model.RegistrationDto
 import ru.pvndpl.model.SimpleUserAuthInfo
+import ru.pvndpl.model.SimpleUserInfoDto
 import ru.pvndpl.model.UserDto
 import ru.pvndpl.repository.UserRepository
 import java.util.*
@@ -40,5 +41,12 @@ class UserService(
     fun getUserInfoById(userID: UUID): UserDto? {
 
         return userRepository.findById(userID)
+    }
+
+    fun fetchAllByPartOfUsername(findUsername: String, userUsername: String): List<SimpleUserInfoDto> {
+
+        var userId: UUID = userRepository.findByUsername(userUsername)?.id ?: throw Exception("Произошла ошибка")
+
+        return userRepository.fetchAllByPartOfUsername(findUsername, userId)
     }
 }

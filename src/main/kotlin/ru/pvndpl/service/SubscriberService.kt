@@ -34,19 +34,32 @@ class SubscriberService(
         return subscriberRepository.getUserSubscriptions(userId)
     }
 
-    fun setNewSubscriber(userName: String, subscriberId: UUID) {
+    fun createSubscriptions(userName: String, subscriptionId: UUID) {
 
         val userId: UUID = userService.findByUsername(userName)!!.id
 
-        if (userId == subscriberId)
-            throw IllegalArgumentException("user id and subscription id are the same")
+        if (userId == subscriptionId) {
+            throw Exception("Нельзя подписаться на самого себя")
+        }
 
-        subscriberRepository.setNewSubscriber(userId, subscriberId)
+        if (subscriberRepository.hasSubscription(userId, subscriptionId) == true) {
+            throw Exception("Вы уже подписаны на этого индивида")
+        }
+
+        subscriberRepository.setNewSubscriber(userId, subscriptionId)
     }
 
     fun deleteSubscriber(userName: String, subscriberId: UUID) {
 
         val userId: UUID = userService.findByUsername(userName)!!.id
+
+        if (userId == subscriberId) {
+            throw Exception("Нельзя удалить подписку на самого сего (её не существует)")
+        }
+
+        if (subscriberRepository.hasSubscription(userId, subscriberId) == false) {
+            throw Exception("Вы не подписаны на этого индивида")
+        }
 
         subscriberRepository.deleteSubscriber(userId, subscriberId)
     }

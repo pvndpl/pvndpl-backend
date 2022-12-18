@@ -3,9 +3,8 @@ package ru.pvndpl.repository
 import lombok.extern.slf4j.Slf4j
 import mu.KotlinLogging
 import org.springframework.jdbc.core.JdbcTemplate
-
-import org.springframework.stereotype.Repository
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.stereotype.Repository
 import ru.pvndpl.model.SubscriberDto
 import java.util.*
 
@@ -53,6 +52,14 @@ class SubscriberRepository(
         logger.warn { query }
 
         jdbcTemplate.update(query)
+    }
+
+    fun hasSubscription(userId: UUID, subscriptionId: UUID): Boolean? {
+
+        return jdbcTemplate.queryForObject(
+            "SELECT EXISTS(SELECT * FROM users_subscribers us WHERE us.user_id = '$userId' and us.subscribers_id = '$subscriptionId')",
+            Boolean::class.java
+        )
     }
 
     private companion object {

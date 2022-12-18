@@ -36,10 +36,13 @@ class SubscriberController(
         return ResponseEntity.ok(subscriberService.getAuthUserSubscriptions(auth.name))
     }
 
+    /**
+     * subscriberId - тот на кого подписываются блять
+     */
     @PostMapping("/subscribers/{subscriberId}")
     fun setNewSubscriber(@PathVariable subscriberId: UUID, auth: Authentication): ResponseEntity<Void> {
 
-        subscriberService.setNewSubscriber(auth.name, subscriberId)
+        subscriberService.createSubscriptions(auth.name, subscriberId)
 
         return ResponseEntity
             .status(HttpStatus.CREATED)

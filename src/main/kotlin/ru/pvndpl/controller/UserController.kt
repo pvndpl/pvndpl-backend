@@ -3,16 +3,13 @@ package ru.pvndpl.controller
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import ru.pvndpl.model.RegistrationDto
 import ru.pvndpl.model.SimpleUserAuthInfo
+import ru.pvndpl.model.SimpleUserInfoDto
 import ru.pvndpl.model.UserDto
 import ru.pvndpl.service.UserService
-import java.util.UUID
+import java.util.*
 
 @RestController
 class UserController constructor(
@@ -39,5 +36,11 @@ class UserController constructor(
     fun getUserInf(@PathVariable userId: UUID): ResponseEntity<UserDto> {
 
         return ResponseEntity.ok(userService.getUserInfoById(userId))
+    }
+
+    @GetMapping("/users")
+    fun findUser(@RequestParam username: String, auth: Authentication): ResponseEntity<List<SimpleUserInfoDto>> {
+
+        return ResponseEntity.ok(userService.fetchAllByPartOfUsername(username, auth.name))
     }
 }
