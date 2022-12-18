@@ -13,6 +13,7 @@ data class Profile(
     val city: String?,
     val website: String?,
     val tvShows: String?,
+    val movies: String?,
     val showmen: String?,
     val books: String?,
     val games: String?,

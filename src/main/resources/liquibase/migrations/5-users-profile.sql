@@ -11,15 +11,13 @@ CREATE TABLE IF NOT EXISTS social_networks
 CREATE TABLE IF NOT EXISTS users_profiles
 (
     user_id UUID PRIMARY KEY REFERENCES users (id),
-    posts_count INT NOT NULL,
-    subscribers_count INT NOT NULL,
-    subscriptions_count INT NOT NULL,
     about VARCHAR(255),
     created_date DATE NOT NULL,
     city VARCHAR(128),
     website VARCHAR(255),
     tv_shows VARCHAR(255),
     showmen VARCHAR(255),
+    movies VARCHAR(255),
     books VARCHAR(255),
     games VARCHAR(255),
     email VARCHAR(255) NOT NULL,

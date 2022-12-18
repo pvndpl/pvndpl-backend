@@ -18,6 +18,12 @@ class SubscriberController(
         return ResponseEntity.ok(subscriberService.getUserSubscribers(userId))
     }
 
+    @GetMapping("/subscriptions/{userId}")
+    fun getUserSubscriptions(@PathVariable userId: UUID): ResponseEntity<List<SubscriberDto>> {
+
+        return ResponseEntity.ok(subscriberService.getUserSubscriptions(userId))
+    }
+
     @GetMapping("/subscribers")
     fun getAuthUserSubscribers(auth: Authentication): ResponseEntity<List<SubscriberDto>> {
 
@@ -30,8 +36,8 @@ class SubscriberController(
         return ResponseEntity.ok(subscriberService.getAuthUserSubscriptions(auth.name))
     }
 
-    @PostMapping("/subscribers")
-    fun setNewSubscriber(auth: Authentication, @RequestParam subscriberId: UUID): ResponseEntity<Void> {
+    @PostMapping("/subscribers/{subscriberId}")
+    fun setNewSubscriber(@PathVariable subscriberId: UUID, auth: Authentication): ResponseEntity<Void> {
 
         subscriberService.setNewSubscriber(auth.name, subscriberId)
 

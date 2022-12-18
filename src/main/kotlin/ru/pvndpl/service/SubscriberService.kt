@@ -14,6 +14,12 @@ class SubscriberService(
 
         return subscriberRepository.getUserSubscribers(userId)
     }
+
+    fun getUserSubscriptions(userId: UUID): List<SubscriberDto> {
+
+        return subscriberRepository.getUserSubscriptions(userId)
+    }
+
     fun getAuthUserSubscriptions(userName: String): List<SubscriberDto> {
 
         val userId: UUID = userService.findByUsername(userName)!!.id
@@ -31,6 +37,9 @@ class SubscriberService(
     fun setNewSubscriber(userName: String, subscriberId: UUID) {
 
         val userId: UUID = userService.findByUsername(userName)!!.id
+
+        if (userId == subscriberId)
+            throw IllegalArgumentException("user id and subscription id are the same")
 
         subscriberRepository.setNewSubscriber(userId, subscriberId)
     }

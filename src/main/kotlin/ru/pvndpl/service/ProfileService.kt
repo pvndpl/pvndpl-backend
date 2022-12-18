@@ -59,6 +59,7 @@ class ProfileService(
             userId,
             profileInterestsDto.tvShows,
             profileInterestsDto.showmen,
+            profileInterestsDto.movies,
             profileInterestsDto.books,
             profileInterestsDto.games
         )

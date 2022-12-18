@@ -18,11 +18,21 @@ class ProfileRepository(
 
     fun getUserProfile(userId: UUID): Profile? {
 
-        updatePostsSubsComments(userId)
-
         return jdbcTemplate.queryForObject(
-            "SELECT * FROM users_profiles\n" +
-                    "WHERE user_id = \'$userId'\n" +
+            "SELECT user_id,\n" +
+                    "       (SELECT count(*)\n" +
+                    "        FROM posts\n" +
+                    "        WHERE user_id = '$userId') as posts_count,\n" +
+                    "       (SELECT count(*)\n" +
+                    "        FROM users_subscribers\n" +
+                    "        WHERE subscribers_id = '$userId') as subscribers_count,\n" +
+                    "       (SELECT count(*)\n" +
+                    "        FROM users_subscribers\n" +
+                    "        WHERE user_id = '$userId') as subscriptions_count,\n" +
+                    "        about, created_date, city, website, tv_shows, movies, showmen,\n" +
+                    "        books, games, email, birthdate, busyness, native_city\n" +
+                    "FROM users_profiles\n" +
+                    "WHERE user_id = '$userId'\n" +
                     "LIMIT 1",
             ROW_MAPPER_USERS_PROFILES
         )
@@ -30,9 +40,8 @@ class ProfileRepository(
 
     fun createUserProfile(userId: UUID, createdDate: Date, email: String) {
 
-        val query = "INSERT INTO users_profiles(user_id, " +
-                "posts_count, subscribers_count, subscriptions_count, created_date, email) " +
-                "VALUES (\'$userId', 0, 0, 0, \'$createdDate', '$email')"
+        val query = "INSERT INTO users_profiles(user_id, created_date, email) " +
+                "VALUES (\'$userId', \'$createdDate', '$email')"
 
         logger.warn { query }
 
@@ -52,11 +61,12 @@ class ProfileRepository(
         jdbcTemplate.update(query)
     }
 
-    fun editInterests(userId: UUID, tvShows: String?, showmen: String?, books: String?, games: String?) {
+    fun editInterests(userId: UUID, tvShows: String?, showmen: String?, movies: String?, books: String?, games: String?) {
 
         val query = "UPDATE users_profiles\n" +
                 "SET tv_shows = \'$tvShows',\n" +
                 "    showmen  = \'$showmen',\n" +
+                "    movies  = \'$movies',\n" +
                 "    books    = \'$books',\n" +
                 "    games    = \'$games'\n" +
                 "WHERE user_id = \'$userId'"
@@ -68,12 +78,23 @@ class ProfileRepository(
 
     fun editPersonalInf(userId: UUID, email: String?, birthdate: Date?, busyness: String?, nativeCity: String?) {
 
-        val query = "UPDATE users_profiles\n" +
-                "SET email       = \'$email',\n" +
-                "    birthdate   = \'$birthdate',\n" +
-                "    busyness    = \'$busyness',\n" +
-                "    native_city = \'$nativeCity'\n" +
-                "WHERE user_id = \'$userId'"
+        val query: String
+
+        if (birthdate != null) {
+            query = "UPDATE users_profiles\n" +
+                    "SET email       = \'$email',\n" +
+                    "    birthdate   = \'$birthdate',\n" +
+                    "    busyness    = \'$busyness',\n" +
+                    "    native_city = \'$nativeCity'\n" +
+                    "WHERE user_id = \'$userId'"
+        } else {
+            query = "UPDATE users_profiles\n" +
+                    "SET email       = \'$email',\n" +
+                    "    birthdate   = NULL,\n" +
+                    "    busyness    = \'$busyness',\n" +
+                    "    native_city = \'$nativeCity'\n" +
+                    "WHERE user_id = \'$userId'"
+        }
 
         logger.warn { query }
 
@@ -115,25 +136,6 @@ class ProfileRepository(
 
     }
 
-    fun updatePostsSubsComments(userId: UUID) {
-
-        val query = "UPDATE users_profiles\n" +
-                "SET posts_count       = (SELECT count(*)\n" +
-                "                         FROM posts\n" +
-                "                         WHERE user_id = \'$userId'),\n" +
-                "    subscribers_count = (SELECT count(*)\n" +
-                "                         FROM users_subscribers\n" +
-                "                         WHERE subscribers_id = \'$userId'),\n" +
-                "    subscriptions_count = (SELECT count(*)\n" +
-                "                         FROM users_subscribers\n" +
-                "                         WHERE user_id = \'$userId')\n" +
-                "WHERE user_id = \'$userId'"
-
-        logger.warn { query }
-
-        jdbcTemplate.update(query)
-    }
-
     //admin
     fun createSocialNetwork(title: String) {
 
@@ -157,6 +159,7 @@ class ProfileRepository(
                 rs.getString("city"),
                 rs.getString("website"),
                 rs.getString("tv_shows"),
+                rs.getString("movies"),
                 rs.getString("showmen"),
                 rs.getString("books"),
                 rs.getString("games"),

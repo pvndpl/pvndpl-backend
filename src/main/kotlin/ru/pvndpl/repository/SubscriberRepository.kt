@@ -19,19 +19,21 @@ class SubscriberRepository(
 
     fun getUserSubscribers(userId: UUID): List<SubscriberDto> {
         return jdbcTemplate.query(
-            "SELECT * FROM users_subscribers\n" +
-                    "    JOIN users u on u.id = users_subscribers.subscribers_id\n" +
-                    "WHERE subscribers_id = \'$userId'",
-            ROW_MAPPER_USERS_SUBSCRIBER
+            "SELECT subscribers_id, username, first_name, second_name\n" +
+                    "FROM users_subscribers\n" +
+                    "JOIN users u on u.id = users_subscribers.subscribers_id\n" +
+                    "    WHERE user_id = \'$userId'",
+            ROW_MAPPER_USERS_SUBSCRIBERS
         )
     }
 
     fun getUserSubscriptions(userId: UUID): List<SubscriberDto> {
         return jdbcTemplate.query(
-            "SELECT * FROM users_subscribers\n" +
-                    "    JOIN users u on u.id = users_subscribers.subscribers_id\n" +
-                    "WHERE user_id = \'$userId'",
-            ROW_MAPPER_USERS_SUBSCRIBER
+            "SELECT user_id, username, first_name, second_name\n" +
+                    "FROM users_subscribers\n" +
+                    "         JOIN users u on u.id = users_subscribers.user_id\n" +
+                    "WHERE subscribers_id = \'$userId'",
+            ROW_MAPPER_USERS_SUBSCRIPTIONS
         )
     }
 
@@ -54,9 +56,18 @@ class SubscriberRepository(
     }
 
     private companion object {
-        val ROW_MAPPER_USERS_SUBSCRIBER = RowMapper<SubscriberDto> { rs, _ ->
+        val ROW_MAPPER_USERS_SUBSCRIPTIONS = RowMapper<SubscriberDto> { rs, _ ->
             SubscriberDto(
                 rs.getObject("user_id", UUID::class.java),
+                rs.getString("username"),
+                rs.getString("first_name"),
+                rs.getString("second_name")
+            )
+        }
+
+        val ROW_MAPPER_USERS_SUBSCRIBERS = RowMapper<SubscriberDto> { rs, _ ->
+            SubscriberDto(
+                rs.getObject("subscribers_id", UUID::class.java),
                 rs.getString("username"),
                 rs.getString("first_name"),
                 rs.getString("second_name")

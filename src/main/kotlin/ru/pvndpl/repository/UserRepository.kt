@@ -5,8 +5,8 @@ import mu.KotlinLogging
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
-import ru.pvndpl.entity.User
 import ru.pvndpl.model.SimpleUserAuthInfo
+import ru.pvndpl.model.UserDto
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
@@ -21,6 +21,13 @@ class UserRepository(
         return jdbcTemplate.queryForObject(
             "select * from users where username like \'$username' limit 1",
             ROW_MAPPER_SIMPLE_USER_AUTH_INFO
+        )
+    }
+
+    fun findById(userId: UUID): UserDto? {
+        return jdbcTemplate.queryForObject(
+            "select * from users where id = \'$userId' limit 1",
+            ROW_MAPPER_USER_DTO
         )
     }
 
@@ -50,6 +57,15 @@ class UserRepository(
                 rs.getObject("id", UUID::class.java),
                 rs.getString("username"),
                 rs.getString("password"),
+                rs.getString("first_name"),
+                rs.getString("second_name")
+            )
+        }
+
+        val ROW_MAPPER_USER_DTO = RowMapper<UserDto> { rs, _ ->
+            UserDto(
+                rs.getObject("id", UUID::class.java),
+                rs.getString("username"),
                 rs.getString("first_name"),
                 rs.getString("second_name")
             )

@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import ru.pvndpl.model.RegistrationDto
 import ru.pvndpl.model.SimpleUserAuthInfo
+import ru.pvndpl.model.UserDto
 import ru.pvndpl.repository.UserRepository
 import java.util.*
 
@@ -34,5 +35,10 @@ class UserService(
     fun findByUsername(username: String): SimpleUserAuthInfo? {
 
         return userRepository.findByUsername(username)
+    }
+
+    fun getUserInfoById(userID: UUID): UserDto? {
+
+        return userRepository.findById(userID)
     }
 }
