@@ -70,6 +70,22 @@ class ChatRepository(
         )
     }
 
+    fun hasChat(userId: UUID, userInvitedId: UUID): Boolean {
+
+        val query: Integer? = jdbcTemplate.queryForObject(
+            "SELECT max(res.num)\n" +
+                    "FROM (SELECT count(user_id) num\n" +
+                    "    FROM chats\n" +
+                    "         JOIN chats_participant cp on chats.id = cp.chat_id\n" +
+                    "WHERE cp.user_id = \'$userId'\n" +
+                    "   OR cp.user_id = \'$userInvitedId'\n" +
+                    "GROUP BY chat_id) AS res",
+            Integer::class.java
+        )
+
+        return query != null && query.equals(2)
+    }
+
     private companion object {
         val ROW_MAPPER_CHAT = RowMapper<Chat> { rs, _ ->
             Chat(

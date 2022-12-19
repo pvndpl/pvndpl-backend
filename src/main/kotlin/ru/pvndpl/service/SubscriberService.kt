@@ -20,14 +20,14 @@ class SubscriberService(
         return subscriberRepository.getUserSubscriptions(userId)
     }
 
-    fun getAuthUserSubscriptions(userName: String): List<SubscriberDto> {
+    fun getAuthUserSubscribers(userName: String): List<SubscriberDto> {
 
         val userId: UUID = userService.findByUsername(userName)!!.id
 
         return subscriberRepository.getUserSubscribers(userId)
     }
 
-    fun getAuthUserSubscribers(userName: String): List<SubscriberDto> {
+    fun getAuthUserSubscriptions(userName: String): List<SubscriberDto> {
 
         val userId: UUID = userService.findByUsername(userName)!!.id
 
@@ -47,6 +47,13 @@ class SubscriberService(
         }
 
         subscriberRepository.setNewSubscriber(userId, subscriptionId)
+    }
+
+    fun checkUserSubscription(userName: String, subscriptionId: UUID): Boolean? {
+
+        val userId: UUID = userService.findByUsername(userName)!!.id
+
+        return subscriberRepository.hasSubscription(userId, subscriptionId)
     }
 
     fun deleteSubscriber(userName: String, subscriberId: UUID) {

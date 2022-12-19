@@ -26,7 +26,7 @@ class MessageService(
         val userId: UUID = userService.findByUsername(userName)!!.id
 
         val now = LocalDateTime.now()
-        val nowInMillis = (now.toEpochSecond(ZoneOffset.UTC) * 1000
+        val nowInMillis = (now.toEpochSecond(ZoneOffset.ofHours(3)) * 1000
                 + now[ChronoField.MILLI_OF_SECOND])
 
         val messageId: UUID = messageRepository.sendMessage(

@@ -15,6 +15,11 @@ class ChatService(
     fun createChat(chatCreateDto: ChatCreateDto, userName: String): UUID {
 
         val userId: UUID = userService.findByUsername(userName)!!.id
+        val userInvitedID = chatCreateDto.userInvitedID
+
+        if (chatRepository.hasChat(userId, userInvitedID)) {
+            throw IllegalArgumentException("Чат с такими участниками уже существует")
+        }
 
         val chatId: UUID = chatRepository.createChat(
             chatCreateDto.type,
@@ -36,5 +41,4 @@ class ChatService(
 
         return chatRepository.addMemberToChat(chatId, userId)
     }
-
 }

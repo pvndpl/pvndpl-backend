@@ -25,10 +25,10 @@ class ProfileRepository(
                     "        WHERE user_id = '$userId') as posts_count,\n" +
                     "       (SELECT count(*)\n" +
                     "        FROM users_subscribers\n" +
-                    "        WHERE subscribers_id = '$userId') as subscribers_count,\n" +
+                    "        WHERE user_id = '$userId') as subscribers_count,\n" +
                     "       (SELECT count(*)\n" +
                     "        FROM users_subscribers\n" +
-                    "        WHERE user_id = '$userId') as subscriptions_count,\n" +
+                    "        WHERE subscribers_id = '$userId') as subscriptions_count,\n" +
                     "        about, created_date, city, website, tv_shows, movies, showmen,\n" +
                     "        books, games, email, birthdate, busyness, native_city\n" +
                     "FROM users_profiles\n" +

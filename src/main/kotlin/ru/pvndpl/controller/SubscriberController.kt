@@ -49,6 +49,12 @@ class SubscriberController(
             .build()
     }
 
+    @GetMapping("/subscriptions-check/{userId}")
+    fun checkUserSubscription(@PathVariable userId: UUID, auth: Authentication): ResponseEntity<Boolean> {
+
+        return ResponseEntity.ok(subscriberService.checkUserSubscription(auth.name, userId))
+    }
+
     @DeleteMapping("/subscribers")
     fun deleteSubscriber(auth: Authentication, @RequestParam subscriberId: UUID): ResponseEntity<Void> {
 
