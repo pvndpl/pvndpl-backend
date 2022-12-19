@@ -45,8 +45,13 @@ class UserService(
 
     fun fetchAllByPartOfUsername(findUsername: String, userUsername: String): List<SimpleUserInfoDto> {
 
-        var userId: UUID = userRepository.findByUsername(userUsername)?.id ?: throw Exception("Произошла ошибка")
+        val userId: UUID = userRepository.findByUsername(userUsername)?.id ?: throw Exception("Произошла ошибка")
 
         return userRepository.fetchAllByPartOfUsername(findUsername, userId)
+    }
+
+    fun getAllUsers(): List<UserDto> {
+
+        return userRepository.getAllUsers()
     }
 }

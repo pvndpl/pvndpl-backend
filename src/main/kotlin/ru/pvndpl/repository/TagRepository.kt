@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
 import ru.pvndpl.model.TagDto
+import ru.pvndpl.model.UserDto
 import java.util.*
 
 @Repository
@@ -13,7 +14,7 @@ class TagRepository(
 
     fun createTag(name: String, sysname: String): TagDto {
 
-        val id: UUID = UUID.randomUUID();
+        val id: UUID = UUID.randomUUID()
 
         jdbcTemplate.update("insert into tags(id, name, sysname) values ('$id', '$name', '$sysname')")
 
@@ -49,6 +50,17 @@ class TagRepository(
         jdbcTemplate.update("insert into user2tag (userid, tagid) values ('$userId', '$tagId')")
     }
 
+    fun getAllUsersByTagName(tagName: String): List<UserDto> {
+
+        return jdbcTemplate.query(
+            "SELECT u.id, u.username, u.first_name, u.second_name\n" +
+                    "FROM user2tag ut\n" +
+                    "     JOIN tags t on t.id = ut.tagid AND t.sysname LIKE \'$tagName'\n" +
+                    "JOIN users u on ut.userid = u.id",
+            ROW_MAPPER_USER_DTO
+        )
+    }
+
     private companion object {
         val ROW_MAPPER_TAG_DTO = RowMapper<TagDto> { rs, _ ->
             TagDto(
@@ -57,5 +69,14 @@ class TagRepository(
                 rs.getString("sysname")
             )
         }
+        val ROW_MAPPER_USER_DTO = RowMapper<UserDto> { rs, _ ->
+            UserDto(
+                rs.getObject("id", UUID::class.java),
+                rs.getString("username"),
+                rs.getString("first_name"),
+                rs.getString("second_name")
+            )
+        }
     }
+
 }

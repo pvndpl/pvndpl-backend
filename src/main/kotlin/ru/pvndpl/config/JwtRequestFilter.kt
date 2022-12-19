@@ -36,18 +36,18 @@ class JwtRequestFilter(
 
             jwtToken = requestTokenHeader.substring(7)
 
-            try {
+//            try {
 
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken)
 
-            } catch (e: IllegalArgumentException) {
-
-                println("Unable to get JWT Token")
-
-            } catch (e: ExpiredJwtException) {
-
-                println("JWT Token has expired")
-            }
+//            } catch (e: IllegalArgumentException) {
+//
+//                println("Unable to get JWT Token")
+//
+//            } catch (e: ExpiredJwtException) {
+//
+//                println("JWT Token has expired")
+//            }
 
         } else {
 
@@ -58,7 +58,7 @@ class JwtRequestFilter(
 
             val userDetails: UserDetails = jwtUserDetailsService.loadUserByUsername(username)
 
-            if (jwtTokenUtil.validateToken(jwtToken!!, userDetails)!!) {
+//            if (jwtTokenUtil.validateToken(jwtToken!!, userDetails)!!) {
                 val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.authorities
                 )
@@ -66,7 +66,7 @@ class JwtRequestFilter(
                 usernamePasswordAuthenticationToken.details = WebAuthenticationDetailsSource().buildDetails(request)
 
                 SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
-            }
+//            }
         }
 
         chain.doFilter(request, response)

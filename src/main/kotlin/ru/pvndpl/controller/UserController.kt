@@ -38,9 +38,15 @@ class UserController constructor(
         return ResponseEntity.ok(userService.getUserInfoById(userId))
     }
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     fun findUser(@RequestParam username: String, auth: Authentication): ResponseEntity<List<SimpleUserInfoDto>> {
 
         return ResponseEntity.ok(userService.fetchAllByPartOfUsername(username, auth.name))
+    }
+
+    @GetMapping("/users-all")
+    fun getAllUsers(auth: Authentication): ResponseEntity<List<UserDto>> {
+
+        return ResponseEntity.ok(userService.getAllUsers())
     }
 }

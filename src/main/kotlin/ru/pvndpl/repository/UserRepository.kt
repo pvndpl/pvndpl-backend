@@ -60,6 +60,13 @@ class UserRepository(
         )
     }
 
+    fun getAllUsers(): List<UserDto> {
+        return jdbcTemplate.query(
+            "SELECT id, username, first_name, second_name FROM users",
+            ROW_MAPPER_USER_DTO
+        )
+    }
+
     private companion object {
         val ROW_MAPPER_SIMPLE_USER_AUTH_INFO = RowMapper<SimpleUserAuthInfo> { rs, _ ->
             SimpleUserAuthInfo(
