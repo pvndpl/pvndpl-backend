@@ -9,8 +9,18 @@ plugins {
 }
 
 group = "ru.pvndpl"
-version = "0.0.1-SNAPSHOT"
+version = "v1"
 java.sourceCompatibility = JavaVersion.VERSION_17
+
+/*springBoot {
+    mainClass.set("ru.pvndpl.PvndplBackendApplication")
+}
+
+tasks.withType(Jar::class) {
+    manifest {
+        attributes["Main-Class"] = "ru.pvndpl.PvndplBackendApplication"
+    }
+}*/
 
 configurations {
     compileOnly {
