@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/1-base-configuration.sql
+  - include:
+      file: db/changelog/2-messages-and-chats.sql
+  - include:
+      file: db/changelog/3-add-posts.sql
+  - include:
+      file: db/changelog/4-users_subscribers.sql
+  - include:
+      file: db/changelog/5-users-profile.sql
+  - include:
+      file: db/changelog/6-add-tags.sql.sql

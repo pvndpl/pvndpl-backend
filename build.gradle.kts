@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.7.3"
     id("io.spring.dependency-management") version "1.0.13.RELEASE"
-    id("org.liquibase.gradle") version "2.1.0"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
 }
@@ -51,9 +50,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     //liquibase deps
-    liquibaseRuntime("org.liquibase:liquibase-core:4.16.1")
-    liquibaseRuntime("org.postgresql:postgresql:42.5.0")
-    liquibaseRuntime("info.picocli:picocli:4.6.1")
+    implementation("org.liquibase:liquibase-core:4.16.1")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -75,7 +72,7 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-liquibase {
+/*liquibase {
     activities.register("main") {
 
         this.arguments = mapOf(
@@ -88,4 +85,4 @@ liquibase {
         )
     }
     runList = "main"
-}
+}*/
